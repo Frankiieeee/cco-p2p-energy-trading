@@ -11,7 +11,8 @@ Source code and data for the paper submitted to **Sustainable Energy, Grids and 
 
 ```
 ├── code/
-│   ├── CCO_Model_PVandPL_BESS_P2P.py     # Chance-constrained P2P model (Pyomo/Gurobi)
+│   ├── CCO_Model_PVandPL_BESS_P2P.py     # CCO model — sensitivity sweep (all ε and η)
+│   ├── CCO_Model_Single_Instance.py      # CCO model — single configurable instance
 │   ├── stochastic_2stage_model_VFG.py    # Two-stage stochastic benchmark (TSSP)
 │   ├── escalabilidad_test.py             # Scalability experiment (CCO vs. TSSP)
 │   └── Determ_365.py                     # Deterministic model — 365-day annual run
@@ -53,6 +54,11 @@ openpyxl >= 3.0
 ---
 
 ## Usage
+
+**CCO — single instance** (edit `excel_file`, `error_val`, `prob_val`, `z_val` at the top of `__main__`):
+```bash
+python code/CCO_Model_Single_Instance.py
+```
 
 **CCO sensitivity sweep (all ε and η combinations):**
 ```bash
