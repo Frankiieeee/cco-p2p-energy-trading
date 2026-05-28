@@ -28,9 +28,8 @@ class P2P_Model_Stochastic:
         self.Ppv_base = None
         self.demand_profiles_base = None
         
-        # Path resolved relative to repository root — no local edits needed
-        _repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.CASE_STUDY_FILE = os.path.join(_repo_root, 'data', 'raw', 'Case_Study_TSSP.xlsx')
+        _root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.CASE_STUDY_FILE = os.path.join(_root, 'data', 'Case_Study_TSSP.xlsx')
 
     def ReadExcelFiles(self):
         try:

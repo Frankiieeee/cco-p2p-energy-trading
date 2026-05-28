@@ -634,57 +634,37 @@ if __name__ == '__main__':
     import os
     import pandas as pd
 
-    # ---------------------------------------------------------------------------
-    # Path configuration — all paths are relative to the repository root.
-    # Run this script from the repo root:  python src/CCO_Model_PVandPL_BESS_P2P.py
-    # ---------------------------------------------------------------------------
-    ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    DATA_RAW_DIR = os.path.join(ROOT_DIR, 'data', 'raw')
-    RESULTS_DIR  = os.path.join(ROOT_DIR, 'data', 'processed', 'sensitivity')
+    ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    DATA_DIR    = os.path.join(ROOT, 'data')
+    RESULTS_DIR = os.path.join(ROOT, 'results', 'sensitivity_cco')
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
-    # Forecast error levels → input file mapping
+    # Forecast error level -> input file
     archivos_error = {
         '05': 'Case_Study_05.xlsx',
         '10': 'Case_Study_10.xlsx',
         '15': 'Case_Study_15.xlsx',
     }
-
-    # Confidence levels → Φ⁻¹(1-η) quantile values
+    # Confidence level (%) -> Phi^{-1}(1-eta)
     niveles_confianza = {50: 0.000, 75: 0.674, 90: 1.282, 95: 1.645, 99: 2.326}
 
     resultados_globales = []
 
     for error_key, excel_name in archivos_error.items():
         for prob_key, z_val in niveles_confianza.items():
-            print(f"\n{'='*55}")
-            print(f"  Model: Error {error_key}% | Confidence {prob_key}% | Z = {z_val}")
-            print(f"{'='*55}")
+            print(f"\nError {error_key}% | Confidence {prob_key}% | Z = {z_val}")
 
-            # 1. Instantiate with the corresponding quantile value
             running = P2P_Model(phi_inv=z_val)
-
-            # 2. Load data
-            ruta_excel = os.path.join(DATA_RAW_DIR, excel_name)
-            running.ReadExcelFile(ruta_excel)
-
-            # 3. Solve with Gurobi
+            running.ReadExcelFile(os.path.join(DATA_DIR, excel_name))
             modelo = running.Solver()
 
-            # 4. Export per-run detail results
-            nombre_salida = os.path.join(
-                RESULTS_DIR, f'Results_Error{error_key}_Conf{prob_key}.xlsx'
-            )
+            nombre_salida = os.path.join(RESULTS_DIR, f'Results_Error{error_key}_Conf{prob_key}.xlsx')
             running.ExportResults(modelo, output_name=nombre_salida)
 
-            # 5. Collect summary metrics
             resumen_corrida = running.get_summary_dict(modelo, error_key, prob_key)
             resultados_globales.append(resumen_corrida)
 
-    # 6. Write consolidated sensitivity report
     df_consolidado = pd.DataFrame(resultados_globales)
-    ruta_consolidado = os.path.join(ROOT_DIR, 'data', 'processed', 'Resumen_Global_Sensibilidad_CCO.xlsx')
+    ruta_consolidado = os.path.join(ROOT, 'results', 'Resumen_Global_Sensibilidad_CCO.xlsx')
     df_consolidado.to_excel(ruta_consolidado, index=False)
-
-    print("\nAll simulations completed successfully.")
-    print(f"Consolidated report saved to: {ruta_consolidado}")
+    print(f"\nDone. Consolidated report: {ruta_consolidado}")
