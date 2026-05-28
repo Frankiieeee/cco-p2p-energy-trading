@@ -655,7 +655,7 @@ if __name__ == '__main__':
             print(f"\nError {error_key}% | Confidence {prob_key}% | Z = {z_val}")
 
             running = P2P_Model(phi_inv=z_val)
-            running.ReadExcelFile(os.path.join(DATA_DIR, excel_name))
+            running.ReadExcelFile(os.path.join(DATA_DIR, 'Case_Study', excel_name))
             modelo = running.Solver()
 
             nombre_salida = os.path.join(RESULTS_DIR, f'Results_Error{error_key}_Conf{prob_key}.xlsx')

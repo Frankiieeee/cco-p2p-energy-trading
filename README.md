@@ -1,6 +1,9 @@
-# Chance-Constrained Optimization for Peer-to-Peer Energy Trading in Active Distribution Networks
+# A Chance-Constrained Upstream Energy-Exchange Commitment Model for Local Energy Communities with Peer-to-Peer Trading Under Forecast Uncertainty
 
-Source code and input data for the paper submitted to **Sustainable Energy, Grids and Networks (SEGAN), Elsevier**.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+
+Source code and data for the paper submitted to **Sustainable Energy, Grids and Networks (SEGAN), Elsevier**.
 
 ---
 
@@ -8,16 +11,28 @@ Source code and input data for the paper submitted to **Sustainable Energy, Grid
 
 ```
 ├── code/
-│   ├── CCO_Model_PVandPL_BESS_P2P.py       # Chance-constrained P2P model (Pyomo/Gurobi)
-│   ├── stochastic_2stage_model_VFG.py       # Two-stage stochastic benchmark (TSSP)
-│   └── escalabilidad_test.py                # Scalability experiment (CCO vs. TSSP)
+│   ├── CCO_Model_PVandPL_BESS_P2P.py     # Chance-constrained P2P model (Pyomo/Gurobi)
+│   ├── stochastic_2stage_model_VFG.py    # Two-stage stochastic benchmark (TSSP)
+│   ├── escalabilidad_test.py             # Scalability experiment (CCO vs. TSSP)
+│   └── Determ_365.py                     # Deterministic model — 365-day annual run
 │
 └── data/
-    ├── Case_Study_05.xlsx                   # CCO input — forecast error ε = 5%
-    ├── Case_Study_10.xlsx                   # CCO input — forecast error ε = 10%
-    ├── Case_Study_15.xlsx                   # CCO input — forecast error ε = 15%
-    ├── Case_Study_TSSP.xlsx                 # TSSP benchmark input (9 scenarios)
-    └── Case_Study_Deterministic.xlsx        # Deterministic reference case
+    ├── Case_Study/
+    │   ├── Case_Study_05.xlsx            # CCO input — forecast error ε = 5%
+    │   ├── Case_Study_10.xlsx            # CCO input — forecast error ε = 10%
+    │   ├── Case_Study_15.xlsx            # CCO input — forecast error ε = 15%
+    │   ├── Case_Study_TSSP.xlsx          # TSSP benchmark input (9 scenarios)
+    │   └── Case_Study_365.xlsx           # Deterministic model input (365 days)
+    │
+    └── Results/
+        ├── Resultados_CCO/
+        │   ├── Results_Error5_Conf{50,75,90,95,99}.xlsx   # CCO results — ε = 5%
+        │   ├── Results_Error10_Conf{50,75,90,95,99}.xlsx  # CCO results — ε = 10%
+        │   ├── Results_Error15_Conf{50,75,90,95,99}.xlsx  # CCO results — ε = 15%
+        │   └── Resumen_Global_Sensibilidad_CCO.xlsx        # Sensitivity summary (all ε, η)
+        └── Resultados_TSSP/
+            ├── Results_First_Stage_TSSP.xlsx               # TSSP first-stage schedule
+            └── Results_S_{1..9}.xlsx                       # TSSP recourse per scenario
 ```
 
 ---
@@ -39,28 +54,34 @@ openpyxl >= 3.0
 
 ## Usage
 
-**CCO model (base case):**
-```python
-from code.CCO_Model_PVandPL_BESS_P2P import P2P_Model
-
-model = P2P_Model(phi_inv=1.282, num_agents=10)   # phi_inv = Φ⁻¹(0.90)
-model.ReadExcelFile('data/Case_Study_10.xlsx')
-model.Solver()
+**CCO sensitivity sweep (all ε and η combinations):**
+```bash
+python code/CCO_Model_PVandPL_BESS_P2P.py
 ```
 
-**Scalability experiment:**
+**TSSP benchmark (single run):**
+```bash
+python code/stochastic_2stage_model_VFG.py
+```
+
+**Scalability experiment (CCO vs. TSSP, 5–55 agents):**
 ```bash
 python code/escalabilidad_test.py
+```
+
+**Deterministic model (365-day annual horizon):**
+```bash
+python code/Determ_365.py
 ```
 
 ---
 
 ## Citation
 
-> Cárdenas, F. et al. (2025). *Chance-Constrained Optimization for Peer-to-Peer Energy Trading with PV Generation and Battery Storage in Active Distribution Networks*. Sustainable Energy, Grids and Networks. *(Under review)*
+> Cárdenas, F. et al. (2025). *A Chance-Constrained Upstream Energy-Exchange Commitment Model for Local Energy Communities with Peer-to-Peer Trading Under Forecast Uncertainty*. Sustainable Energy, Grids and Networks. *(Under review)*
 
 ---
 
 ## License
 
-MIT License — see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).

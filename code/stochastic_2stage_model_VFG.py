@@ -29,7 +29,7 @@ class P2P_Model_Stochastic:
         self.demand_profiles_base = None
         
         _root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.CASE_STUDY_FILE = os.path.join(_root, 'data', 'Case_Study_TSSP.xlsx')
+        self.CASE_STUDY_FILE = os.path.join(_root, 'data', 'Case_Study', 'Case_Study_TSSP.xlsx')
 
     def ReadExcelFiles(self):
         try:

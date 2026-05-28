@@ -296,7 +296,7 @@ class P2P_Model_Deterministic:
 
 if __name__ == '__main__':
     ROOT       = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    DATA_FILE  = os.path.join(ROOT, 'data', 'Case_Study_Deterministic.xlsx')
+    DATA_FILE  = os.path.join(ROOT, 'data', 'Case_Study', 'Case_Study_365.xlsx')
     OUTPUT_DIR = os.path.join(ROOT, 'results', 'deterministic_365')
 
     running = P2P_Model_Deterministic()

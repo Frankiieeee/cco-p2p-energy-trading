@@ -31,7 +31,7 @@ Z_90 = 1.282  # Phi^{-1}(0.90)
 # --- Load data once ---
 print("Loading data...")
 cco_base = P2P_Model(phi_inv=Z_90)
-cco_base.ReadExcelFile(os.path.join(DATA_DIR, 'Case_Study_10.xlsx'))
+cco_base.ReadExcelFile(os.path.join(DATA_DIR, 'Case_Study', 'Case_Study_10.xlsx'))
 agents_cco = cco_base.Agents.copy()
 
 tssp_base = P2P_Model_Stochastic()
